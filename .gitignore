@@ -1,0 +1,9 @@
+bin/
+obj/
+.vs/
+
+frontend-react/node_modules/
+frontend-react/dist/
+
+backend-spring/target/
+*.log

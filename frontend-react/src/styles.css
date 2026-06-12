@@ -1,0 +1,341 @@
+:root {
+  color: #1d1f23;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f6f8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  border-radius: 6px;
+  background: #1f6feb;
+  color: white;
+  cursor: pointer;
+  min-height: 38px;
+  padding: 8px 14px;
+}
+
+button:hover {
+  filter: brightness(0.95);
+}
+
+button.danger {
+  background: #c24141;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid #cfd6df;
+  border-radius: 6px;
+  background: white;
+  color: #1d1f23;
+  min-height: 38px;
+  padding: 8px 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+th,
+td {
+  border-bottom: 1px solid #e4e8ee;
+  padding: 10px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+th {
+  background: #edf1f5;
+  color: #374151;
+  font-size: 14px;
+}
+
+footer {
+  border-top: 1px solid #dde3ea;
+  color: #667085;
+  margin-top: 32px;
+  padding: 20px;
+  text-align: center;
+}
+
+.topbar {
+  align-items: center;
+  background: #20242a;
+  color: white;
+  display: flex;
+  gap: 16px;
+  min-height: 58px;
+  padding: 0 24px;
+}
+
+.brand {
+  background: transparent;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  padding-left: 0;
+}
+
+.topbar nav,
+.account {
+  display: flex;
+  gap: 6px;
+}
+
+.topbar nav {
+  flex: 1;
+}
+
+.topbar nav button,
+.account button {
+  background: transparent;
+  color: #d9dee5;
+}
+
+.topbar button.active,
+.topbar button:hover {
+  background: #343a43;
+  color: white;
+}
+
+.account {
+  align-items: center;
+}
+
+.shell {
+  margin: 0 auto;
+  max-width: 1180px;
+  padding: 24px;
+}
+
+.section-title {
+  align-items: end;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+h1 {
+  font-size: 30px;
+  margin: 0 0 16px;
+}
+
+h2 {
+  font-size: 20px;
+  margin: 0 0 12px;
+}
+
+.filters,
+.form-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1.5fr 1fr auto;
+  margin-bottom: 20px;
+}
+
+.filters.compact {
+  grid-template-columns: minmax(180px, 360px) auto;
+  justify-content: start;
+}
+
+.food-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+.food-card,
+.panel {
+  background: white;
+  border: 1px solid #dde3ea;
+  border-radius: 8px;
+}
+
+.food-card {
+  overflow: hidden;
+}
+
+.food-card img {
+  aspect-ratio: 16 / 10;
+  display: block;
+  object-fit: cover;
+  width: 100%;
+}
+
+.food-card > div,
+.panel {
+  padding: 16px;
+}
+
+.food-card h3,
+.food-card p {
+  margin: 0 0 8px;
+}
+
+.card-actions,
+.row-actions,
+.totals,
+.tabs,
+.stats {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.card-actions {
+  justify-content: space-between;
+  margin-top: 14px;
+}
+
+.row-actions {
+  min-width: 220px;
+}
+
+.row-actions select {
+  width: 120px;
+}
+
+.muted {
+  color: #667085;
+}
+
+.error {
+  color: #b42318;
+  font-weight: 600;
+}
+
+.notice {
+  align-items: center;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+}
+
+.notice.success {
+  background: #e8f7ee;
+  color: #166534;
+}
+
+.notice.error {
+  background: #fdecec;
+  color: #991b1b;
+}
+
+.notice button {
+  background: transparent;
+  color: inherit;
+  min-height: 28px;
+  padding: 0 4px;
+}
+
+.form-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.form-stack label {
+  display: grid;
+  gap: 6px;
+}
+
+.narrow {
+  max-width: 520px;
+}
+
+.table-wrap {
+  border: 1px solid #dde3ea;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  overflow-x: auto;
+}
+
+.totals {
+  margin: 14px 0;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+}
+
+.tabs {
+  margin-bottom: 16px;
+}
+
+.tabs button {
+  background: #dde4ee;
+  color: #263341;
+}
+
+.tabs button.active {
+  background: #1f6feb;
+  color: white;
+}
+
+.stats .panel {
+  min-width: 220px;
+}
+
+.stats strong {
+  display: block;
+  font-size: 26px;
+  margin-top: 8px;
+}
+
+.check {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+.check input {
+  width: auto;
+}
+
+@media (max-width: 760px) {
+  .topbar,
+  .topbar nav,
+  .account {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .topbar {
+    padding: 12px;
+  }
+
+  .filters,
+  .filters.compact,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title {
+    align-items: start;
+    flex-direction: column;
+  }
+}
