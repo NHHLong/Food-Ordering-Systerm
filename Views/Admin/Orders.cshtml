@@ -1,0 +1,33 @@
+@model List<Order>
+@{
+    ViewData["Title"] = "Update Order Status";
+}
+
+<h2>Update Order Status</h2>
+<table class="table">
+    <thead><tr><th>Id</th><th>User</th><th>Total</th><th>Current</th><th>Update</th></tr></thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.OrderId</td>
+                <td>@order.Username</td>
+                <td>@order.TotalAmount.ToString("N0") đ</td>
+                <td>@order.Status</td>
+                <td>
+                    <form asp-action="UpdateOrderStatus" method="post" class="d-flex gap-2">
+                        <input type="hidden" name="orderId" value="@order.OrderId" />
+                        <select name="status" class="form-select form-select-sm">
+                            <option>Pending</option>
+                            <option>Preparing</option>
+                            <option>Shipping</option>
+                            <option>Completed</option>
+                            <option>Cancelled</option>
+                        </select>
+                        <button class="btn btn-sm btn-primary">Save</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

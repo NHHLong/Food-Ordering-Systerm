@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Admin";
+}
+
+<h2>Admin Dashboard</h2>
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="border rounded p-3">
+            <div>Revenue</div>
+            <strong>@(((decimal)ViewBag.Revenue).ToString("N0")) đ</strong>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="border rounded p-3">
+            <div>Orders</div>
+            <strong>@ViewBag.OrderCount</strong>
+        </div>
+    </div>
+</div>
+<div class="list-group">
+    <a class="list-group-item" asp-action="Foods">Manage Foods</a>
+    <a class="list-group-item" asp-action="Categories">Manage Categories</a>
+    <a class="list-group-item" asp-action="Users">Manage Users</a>
+    <a class="list-group-item" asp-action="Orders">Update Order Status</a>
+    <a class="list-group-item" asp-action="Vouchers">Manage Vouchers</a>
+    <a class="list-group-item" asp-action="SupportRequests">Support Requests</a>
+</div>

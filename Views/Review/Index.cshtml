@@ -1,0 +1,29 @@
+@model List<Review>
+@{
+    ViewData["Title"] = "Reviews";
+    var foods = ViewBag.Foods as List<Food> ?? new List<Food>();
+}
+
+<h2>Reviews</h2>
+<form asp-action="Add" method="post" class="row g-2 border rounded p-3 mb-4">
+    <div class="col-md-4">
+        <select name="foodId" class="form-select">
+            @foreach (var food in foods)
+            {
+                <option value="@food.FoodId">@food.Name</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-2"><input name="rating" class="form-control" type="number" min="1" max="5" value="5" /></div>
+    <div class="col-md-4"><input name="comment" class="form-control" placeholder="Comment" /></div>
+    <div class="col-md-2"><button class="btn btn-primary w-100">Review</button></div>
+</form>
+<table class="table">
+    <thead><tr><th>Food</th><th>User</th><th>Rating</th><th>Comment</th><th>Date</th></tr></thead>
+    <tbody>
+        @foreach (var review in Model)
+        {
+            <tr><td>@review.FoodName</td><td>@review.Username</td><td>@review.Rating</td><td>@review.Comment</td><td>@review.ReviewDate</td></tr>
+        }
+    </tbody>
+</table>

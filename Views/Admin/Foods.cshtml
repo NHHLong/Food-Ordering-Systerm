@@ -1,0 +1,45 @@
+@model List<Food>
+@{
+    ViewData["Title"] = "Manage Foods";
+    var categories = ViewBag.Categories as List<Category> ?? new List<Category>();
+}
+
+<h2>Manage Foods</h2>
+<form asp-action="SaveFood" method="post" class="row g-2 border rounded p-3 mb-4">
+    <input type="hidden" name="FoodId" value="0" />
+    <div class="col-md-3"><input name="Name" class="form-control" placeholder="Name" /></div>
+    <div class="col-md-2"><input name="Price" class="form-control" placeholder="Price" type="number" /></div>
+    <div class="col-md-2">
+        <select name="CategoryId" class="form-select">
+            @foreach (var category in categories)
+            {
+                <option value="@category.CategoryId">@category.Name</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-2"><input name="Image" class="form-control" placeholder="/images/burger.jpg" /></div>
+    <div class="col-md-2"><input name="Description" class="form-control" placeholder="Description" /></div>
+    <input type="hidden" name="Status" value="Available" />
+    <div class="col-md-1"><button class="btn btn-primary w-100">Add</button></div>
+</form>
+
+<table class="table">
+    <thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+        @foreach (var food in Model)
+        {
+            <tr>
+                <td>@food.Name</td>
+                <td>@food.CategoryName</td>
+                <td>@food.Price.ToString("N0") đ</td>
+                <td>@food.Status</td>
+                <td>
+                    <form asp-action="DeleteFood" method="post">
+                        <input type="hidden" name="foodId" value="@food.FoodId" />
+                        <button class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

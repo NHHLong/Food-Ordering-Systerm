@@ -1,0 +1,22 @@
+@model List<Category>
+@{
+    ViewData["Title"] = "Manage Categories";
+}
+
+<h2>Manage Categories</h2>
+<form asp-action="SaveCategory" method="post" class="row g-2 border rounded p-3 mb-4">
+    <input type="hidden" name="CategoryId" value="0" />
+    <div class="col-md-4"><input name="Name" class="form-control" placeholder="Category name" /></div>
+    <div class="col-md-5"><input name="Description" class="form-control" placeholder="Description" /></div>
+    <div class="col-md-2 form-check pt-2"><input name="IsActive" type="checkbox" class="form-check-input" value="true" checked /> <label class="form-check-label">Active</label></div>
+    <div class="col-md-1"><button class="btn btn-primary w-100">Add</button></div>
+</form>
+<table class="table">
+    <thead><tr><th>Name</th><th>Description</th><th>Active</th></tr></thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr><td>@category.Name</td><td>@category.Description</td><td>@category.IsActive</td></tr>
+        }
+    </tbody>
+</table>
