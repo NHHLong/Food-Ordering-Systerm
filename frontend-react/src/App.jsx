@@ -139,7 +139,13 @@ export default function App() {
 
   return (
     <>
-      <NavBar page={page} setPage={setPage} user={user} logout={logout} />
+      <NavBar
+        page={page}
+        setPage={setPage}
+        user={user}
+        logout={logout}
+        cartCount={cart.reduce((n, item) => n + item.quantity, 0)}
+      />
       <main className="shell">
         <Notice
           message={notice?.message}

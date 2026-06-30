@@ -35,9 +35,23 @@ export default function MenuPage({ addToCart }) {
 
   return (
     <section>
+      <div className="hero">
+        <span className="eyebrow">Tonight's menu</span>
+        <h1>Comfort food, crafted &amp; delivered.</h1>
+        <p>
+          Hand-picked dishes from neighborhood kitchens — warm, fresh, and at
+          your door before the table cools.
+        </p>
+      </div>
       <div className="section-title">
-        <h1>Menu</h1>
-        <span>{foods.length} foods</span>
+        <div>
+          <span className="eyebrow">Browse</span>
+          <h2 style={{ marginBottom: 6 }}>All dishes</h2>
+          <p className="muted" style={{ margin: 0 }}>
+            Filter by name or category — your cart updates instantly.
+          </p>
+        </div>
+        <span>{foods.length} dishes</span>
       </div>
       <form className="filters" onSubmit={submit}>
         <input

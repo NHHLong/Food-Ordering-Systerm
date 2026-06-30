@@ -9,10 +9,14 @@ const items = [
   ["support", "Support"],
 ];
 
-export default function NavBar({ page, setPage, user, logout }) {
+export default function NavBar({ page, setPage, user, logout, cartCount = 0 }) {
+  const initial = user?.username?.[0]?.toUpperCase() || "?";
   return (
     <header className="topbar">
       <button className="brand" onClick={() => setPage("menu")}>
+        <span className="brand-mark" aria-hidden="true">
+          ◍
+        </span>
         FoodOrder
       </button>
       <nav>
@@ -23,6 +27,9 @@ export default function NavBar({ page, setPage, user, logout }) {
             onClick={() => setPage(key)}
           >
             {label}
+            {key === "cart" && cartCount > 0 && (
+              <span className="cart-count">{cartCount}</span>
+            )}
           </button>
         ))}
       </nav>
@@ -40,7 +47,10 @@ export default function NavBar({ page, setPage, user, logout }) {
             {user.role?.toLowerCase() === "staff" && (
               <button onClick={() => setPage("staff")}>Staff</button>
             )}
-            <span>{user.username}</span>
+            <span className="user-chip">
+              <span className="user-avatar">{initial}</span>
+              {user.username}
+            </span>
             <button onClick={logout}>Logout</button>
           </>
         )}
