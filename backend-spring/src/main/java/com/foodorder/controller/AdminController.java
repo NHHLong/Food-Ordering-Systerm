@@ -1,5 +1,6 @@
 package com.foodorder.controller;
 
+import com.foodorder.dto.CategoryActiveRequest;
 import com.foodorder.dto.CategorySaveRequest;
 import com.foodorder.dto.DashboardResponse;
 import com.foodorder.dto.FoodSaveRequest;
@@ -68,6 +69,11 @@ public class AdminController {
 
     @PostMapping("/categories")
     public Category saveCategory(@RequestBody CategorySaveRequest request) { return categories.saveCategory(request); }
+
+    @PatchMapping("/categories/{categoryId}/active")
+    public Category setCategoryActive(@PathVariable int categoryId, @RequestBody CategoryActiveRequest request) {
+        return categories.updateCategoryActive(categoryId, request);
+    }
 
     @GetMapping("/users")
     public List<User> users() { return users.getAllUsers(); }

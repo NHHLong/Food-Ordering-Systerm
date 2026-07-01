@@ -243,6 +243,16 @@ export default function AdminPage({ user, flash }) {
           <DataTable
             rows={data.categories}
             columns={["categoryId", "name", "description", "active"]}
+            action={(row) => (
+              <button
+                onClick={async () => {
+                  await api.setCategoryActive(row.categoryId, !row.active);
+                  await load();
+                }}
+              >
+                {row.active ? "Deactivate" : "Activate"}
+              </button>
+            )}
           />
         </>
       )}

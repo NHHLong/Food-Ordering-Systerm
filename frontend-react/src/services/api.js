@@ -83,6 +83,11 @@ export const api = {
       method: "POST",
       body: JSON.stringify(payload),
     }),
+  setCategoryActive: (id, active) =>
+    request(`/admin/categories/${id}/active`, {
+      method: "PATCH",
+      body: JSON.stringify({ active }),
+    }),
   adminUsers: () => request("/admin/users"),
   setUserActive: (id, active) =>
     request(`/admin/users/${id}/active`, {

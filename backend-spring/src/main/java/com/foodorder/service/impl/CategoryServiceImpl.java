@@ -1,6 +1,7 @@
 package com.foodorder.service.impl;
 
 import com.foodorder.dao.ICategoryDAO;
+import com.foodorder.dto.CategoryActiveRequest;
 import com.foodorder.dto.CategorySaveRequest;
 import com.foodorder.model.Category;
 import com.foodorder.service.CategoryService;
@@ -34,5 +35,14 @@ public class CategoryServiceImpl implements CategoryService {
         category.setDescription(request.description());
         category.setActive(request.active());
         return request.categoryId() > 0 ? categoryDAO.update(category) : categoryDAO.save(category);
+    }
+
+    @Override
+    @Transactional
+    public Category updateCategoryActive(int categoryId, CategoryActiveRequest request) {
+        Category category = categoryDAO.findById(categoryId)
+            .orElseThrow(() -> new IllegalArgumentException("Category does not exist."));
+        category.setActive(request.active());
+        return categoryDAO.update(category);
     }
 }
