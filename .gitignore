@@ -7,3 +7,4 @@ frontend-react/dist/
 
 backend-spring/target/
 *.log
+.claude/launch.json

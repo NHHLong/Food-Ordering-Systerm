@@ -37,9 +37,13 @@ public class Order {
     private String status = "Pending";
     @Enumerated(EnumType.STRING)
     @Column(name = "PaymentMethod", nullable = false)
-    private PaymentMethod paymentMethod = PaymentMethod.Cash;
+    private PaymentMethod paymentMethod = PaymentMethod.cash;
     @Column(name = "ShippingAddress")
     private String shippingAddress;
+    @Column(name = "Note")
+    private String note;
+    @Transient
+    private Address address;
     @Transient
     private List<OrderDetail> details = new ArrayList<>();
 
@@ -63,6 +67,10 @@ public class Order {
     public void setPaymentMethod(PaymentMethod paymentMethod) { this.paymentMethod = paymentMethod; }
     public String getShippingAddress() { return shippingAddress; }
     public void setShippingAddress(String shippingAddress) { this.shippingAddress = shippingAddress; }
+    public String getNote() { return note; }
+    public void setNote(String note) { this.note = note; }
+    public Address getAddress() { return address; }
+    public void setAddress(Address address) { this.address = address; }
     public List<OrderDetail> getDetails() { return details; }
     public void setDetails(List<OrderDetail> details) { this.details = details; }
 }

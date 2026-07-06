@@ -5,8 +5,8 @@ import com.foodorder.dao.IFoodDAO;
 import com.foodorder.dto.CartItemRequest;
 import com.foodorder.model.Cart;
 import com.foodorder.model.CartItem;
+import com.foodorder.model.CartItemEntity;
 import com.foodorder.model.Food;
-import com.foodorder.model.PersistentCartItem;
 import com.foodorder.service.CartService;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -32,9 +32,9 @@ public class CartServiceImpl implements CartService {
     public List<CartItem> addCartItem(CartItemRequest request) {
         Cart cart = cartDAO.findOrCreateByUserId(request.userId());
         Food food = foodDAO.findById(request.foodId()).orElseThrow(() -> new IllegalArgumentException("Food does not exist."));
-        PersistentCartItem item = cartDAO.findItem(cart.getCartId(), request.foodId());
+        CartItemEntity item = cartDAO.findItem(cart.getCartId(), request.foodId());
         if (item == null) {
-            item = new PersistentCartItem();
+            item = new CartItemEntity();
             item.setCartId(cart.getCartId());
             item.setFoodId(food.getFoodId());
             item.setQuantity(Math.max(1, request.quantity()));
@@ -51,7 +51,7 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public List<CartItem> updateCartItem(CartItemRequest request) {
         Cart cart = cartDAO.findOrCreateByUserId(request.userId());
-        PersistentCartItem item = cartDAO.findItem(cart.getCartId(), request.foodId());
+        CartItemEntity item = cartDAO.findItem(cart.getCartId(), request.foodId());
         if (item != null) {
             item.setQuantity(Math.max(1, request.quantity()));
             cartDAO.saveItem(item);
@@ -73,7 +73,7 @@ public class CartServiceImpl implements CartService {
         cartDAO.clearItems(userId);
     }
 
-    private List<CartItem> toCartItems(List<PersistentCartItem> rows) {
+    private List<CartItem> toCartItems(List<CartItemEntity> rows) {
         return rows.stream().map(row -> {
             Food food = foodDAO.findById(row.getFoodId()).orElse(new Food());
             CartItem item = new CartItem();

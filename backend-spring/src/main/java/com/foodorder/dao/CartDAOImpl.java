@@ -1,7 +1,7 @@
 package com.foodorder.dao;
 
 import com.foodorder.model.Cart;
-import com.foodorder.model.PersistentCartItem;
+import com.foodorder.model.CartItemEntity;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -26,18 +26,18 @@ public class CartDAOImpl extends GenericDAOImpl<Cart, Integer> implements ICartD
     }
 
     @Override
-    public List<PersistentCartItem> findItemsByUserId(int userId) {
+    public List<CartItemEntity> findItemsByUserId(int userId) {
         Cart cart = findOrCreateByUserId(userId);
         return entityManager
-            .createQuery("SELECT i FROM PersistentCartItem i WHERE i.cartId = :cartId ORDER BY i.cartItemId", PersistentCartItem.class)
+            .createQuery("SELECT i FROM CartItemEntity i WHERE i.cartId = :cartId ORDER BY i.cartItemId", CartItemEntity.class)
             .setParameter("cartId", cart.getCartId())
             .getResultList();
     }
 
     @Override
-    public PersistentCartItem findItem(int cartId, int foodId) {
+    public CartItemEntity findItem(int cartId, int foodId) {
         return entityManager
-            .createQuery("SELECT i FROM PersistentCartItem i WHERE i.cartId = :cartId AND i.foodId = :foodId", PersistentCartItem.class)
+            .createQuery("SELECT i FROM CartItemEntity i WHERE i.cartId = :cartId AND i.foodId = :foodId", CartItemEntity.class)
             .setParameter("cartId", cartId)
             .setParameter("foodId", foodId)
             .getResultStream()
@@ -46,7 +46,7 @@ public class CartDAOImpl extends GenericDAOImpl<Cart, Integer> implements ICartD
     }
 
     @Override
-    public PersistentCartItem saveItem(PersistentCartItem item) {
+    public CartItemEntity saveItem(CartItemEntity item) {
         if (item.getCartItemId() == 0) {
             entityManager.persist(item);
             entityManager.flush();
@@ -57,7 +57,7 @@ public class CartDAOImpl extends GenericDAOImpl<Cart, Integer> implements ICartD
 
     @Override
     public void removeItem(int cartId, int foodId) {
-        PersistentCartItem item = findItem(cartId, foodId);
+        CartItemEntity item = findItem(cartId, foodId);
         if (item != null) entityManager.remove(item);
     }
 
@@ -65,7 +65,7 @@ public class CartDAOImpl extends GenericDAOImpl<Cart, Integer> implements ICartD
     public void clearItems(int userId) {
         Cart cart = findOrCreateByUserId(userId);
         entityManager
-            .createQuery("DELETE FROM PersistentCartItem i WHERE i.cartId = :cartId")
+            .createQuery("DELETE FROM CartItemEntity i WHERE i.cartId = :cartId")
             .setParameter("cartId", cart.getCartId())
             .executeUpdate();
     }

@@ -1,6 +1,8 @@
 package com.foodorder.controller;
 
+import com.foodorder.dto.DashboardResponse;
 import com.foodorder.dto.OrderStatusRequest;
+import com.foodorder.dto.SupportStatusRequest;
 import com.foodorder.model.Notification;
 import com.foodorder.model.Order;
 import com.foodorder.model.SupportRequest;
@@ -43,8 +45,19 @@ public class StaffController {
         return support.getAllSupportRequests();
     }
 
+    @PatchMapping("/support/{supportRequestId}/status")
+    public SupportRequest updateSupportStatus(@PathVariable int supportRequestId, @RequestBody SupportStatusRequest request) {
+        return support.updateSupportStatus(supportRequestId, request);
+    }
+
     @GetMapping("/notifications")
     public List<Notification> notifications() {
         return notifications.getNotifications(null);
+    }
+
+    @GetMapping("/report")
+    public DashboardResponse report() {
+        List<Order> allOrders = orders.getOrders(null);
+        return new DashboardResponse(orders.getRevenue(), allOrders.size());
     }
 }

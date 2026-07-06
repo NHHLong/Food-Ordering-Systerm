@@ -53,7 +53,10 @@ export const api = {
       body: JSON.stringify(payload),
     }),
   orders: (userId) => request(`/orders${userId ? `?userId=${userId}` : ""}`),
-  orderDetails: (orderId) => request(`/orders/${orderId}/details`),
+  orderDetails: (orderId, userId, role) =>
+    request(
+      `/orders/${orderId}/details?userId=${userId}${role ? `&role=${role}` : ""}`,
+    ),
   reviews: () => request("/reviews"),
   addReview: (payload) =>
     request("/reviews", { method: "POST", body: JSON.stringify(payload) }),
@@ -71,7 +74,13 @@ export const api = {
       body: JSON.stringify({ status }),
     }),
   staffSupport: () => request("/staff/support"),
+  staffUpdateSupportStatus: (id, status) =>
+    request(`/staff/support/${id}/status`, {
+      method: "PATCH",
+      body: JSON.stringify({ status }),
+    }),
   staffNotifications: () => request("/staff/notifications"),
+  staffReport: () => request("/staff/report"),
   adminDashboard: () => request("/admin/dashboard"),
   adminFoods: () => request("/admin/foods"),
   saveFood: (payload) =>

@@ -14,12 +14,14 @@ export default function CartPage({
   setPage,
 }) {
   const [code, setCode] = useState(voucher?.code || "");
-  const [paymentMethod, setPaymentMethod] = useState("Cash");
+  const [paymentMethod, setPaymentMethod] = useState("cash");
   const [deliveryAddress, setDeliveryAddress] = useState({
+    state: "",
     city: "",
     street: "",
     buildingNumber: "",
   });
+  const [note, setNote] = useState("");
   const [error, setError] = useState("");
 
   const update = async (foodId, quantity) => {
@@ -84,6 +86,7 @@ export default function CartPage({
         paymentMethod,
         shippingAddress: `${deliveryAddress.buildingNumber} ${deliveryAddress.street}, ${deliveryAddress.city}`.trim(),
         deliveryAddress,
+        note,
       });
       setCart([]);
       setVoucher(null);
@@ -165,6 +168,16 @@ export default function CartPage({
       <form className="panel form-stack" onSubmit={checkout}>
         <h2>Checkout</h2>
         <label>
+          State / Province
+          <input
+            value={deliveryAddress.state}
+            onChange={(e) =>
+              setDeliveryAddress({ ...deliveryAddress, state: e.target.value })
+            }
+            placeholder="e.g. Southern Vietnam"
+          />
+        </label>
+        <label>
           City
           <input
             value={deliveryAddress.city}
@@ -201,13 +214,21 @@ export default function CartPage({
           />
         </label>
         <label>
+          Note
+          <textarea
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            placeholder="Delivery instructions (optional)"
+          />
+        </label>
+        <label>
           Payment
           <select
             value={paymentMethod}
             onChange={(e) => setPaymentMethod(e.target.value)}
           >
-            <option value="Cash">Cash</option>
-            <option value="BankTransfer">Bank transfer</option>
+            <option value="cash">Cash</option>
+            <option value="bank_transfer">Bank transfer</option>
           </select>
         </label>
         <button>Place order</button>

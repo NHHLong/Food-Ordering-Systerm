@@ -10,7 +10,7 @@ import java.util.List;
 public interface OrderService {
     int placeOrder(CheckoutRequest request);
     List<Order> getOrders(Integer userId);
-    List<OrderDetail> getOrderDetails(int orderId);
+    List<OrderDetail> getOrderDetails(int orderId, int requesterId, String requesterRole);
     Order updateOrderStatus(int orderId, OrderStatusRequest request);
     BigDecimal getRevenue();
 }

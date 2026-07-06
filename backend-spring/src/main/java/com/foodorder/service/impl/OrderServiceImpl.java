@@ -67,6 +67,7 @@ public class OrderServiceImpl implements OrderService {
         if (request.deliveryAddress() != null) {
             address = new Address();
             address.setUserId(request.user().getUserId());
+            address.setState(request.deliveryAddress().state());
             address.setCity(request.deliveryAddress().city());
             address.setStreet(request.deliveryAddress().street());
             address.setBuildingNumber(request.deliveryAddress().buildingNumber());
@@ -76,8 +77,9 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderDate(LocalDateTime.now());
         order.setTotalAmount(total);
         order.setStatus("Pending");
-        order.setPaymentMethod(request.paymentMethod() == null ? PaymentMethod.Cash : request.paymentMethod());
+        order.setPaymentMethod(request.paymentMethod() == null ? PaymentMethod.cash : request.paymentMethod());
         order.setShippingAddress(address != null ? address.getFullAddress() : request.shippingAddress());
+        order.setNote(request.note());
         order.setDetails(request.items().stream().map(item -> {
             OrderDetail detail = new OrderDetail();
             detail.setFoodId(item.getFood().getFoodId());
@@ -103,7 +105,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDetail> getOrderDetails(int orderId) {
+    public List<OrderDetail> getOrderDetails(int orderId, int requesterId, String requesterRole) {
+        Order order = orderDAO.findById(orderId).orElse(null);
+        boolean isStaffOrAdmin = "admin".equalsIgnoreCase(requesterRole) || "staff".equalsIgnoreCase(requesterRole);
+        if (order == null || (!isStaffOrAdmin && order.getUserId() != requesterId)) {
+            throw new IllegalArgumentException("Order not found or access denied.");
+        }
         return orderDAO.findDetailsByOrderId(orderId);
     }
 

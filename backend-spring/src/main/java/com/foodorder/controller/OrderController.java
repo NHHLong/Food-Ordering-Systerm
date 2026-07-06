@@ -25,7 +25,11 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}/details")
-    public List<OrderDetail> details(@PathVariable int orderId) {
-        return orders.getOrderDetails(orderId);
+    public List<OrderDetail> details(
+        @PathVariable int orderId,
+        @RequestParam int userId,
+        @RequestParam(required = false) String role
+    ) {
+        return orders.getOrderDetails(orderId, userId, role);
     }
 }

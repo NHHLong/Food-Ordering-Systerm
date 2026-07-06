@@ -1,5 +1,6 @@
 package com.foodorder.dao;
 
+import com.foodorder.model.Address;
 import com.foodorder.model.Order;
 import com.foodorder.model.OrderDetail;
 import java.math.BigDecimal;
@@ -34,6 +35,7 @@ public class OrderDAOImpl extends GenericDAOImpl<Order, Integer> implements IOrd
         }
         List<Order> orders = query.getResultList();
         fillUsernames(orders);
+        fillAddresses(orders);
         return orders;
     }
 
@@ -85,6 +87,18 @@ public class OrderDAOImpl extends GenericDAOImpl<Order, Integer> implements IOrd
                 .findFirst()
                 .orElse("");
             order.setUsername(username);
+        }
+    }
+
+    private void fillAddresses(List<Order> orders) {
+        for (Order order : orders) {
+            if (order.getAddressId() == null) continue;
+            entityManager
+                .createQuery("SELECT a FROM Address a WHERE a.addressId = :addressId", Address.class)
+                .setParameter("addressId", order.getAddressId())
+                .getResultStream()
+                .findFirst()
+                .ifPresent(order::setAddress);
         }
     }
 }

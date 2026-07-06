@@ -4,18 +4,24 @@ import { api } from "../services/api.js";
 
 export default function StaffPage({ user, flash }) {
   const [tab, setTab] = useState("orders");
-  const [data, setData] = useState({ orders: [], support: [], notifications: [] });
+  const [data, setData] = useState({
+    orders: [],
+    support: [],
+    notifications: [],
+    report: {},
+  });
   const [error, setError] = useState("");
   const isStaff = user?.role?.toLowerCase() === "staff";
 
   const load = async () => {
     if (!isStaff) return;
-    const [orders, support, notifications] = await Promise.all([
+    const [orders, support, notifications, report] = await Promise.all([
       api.staffOrders(),
       api.staffSupport(),
       api.staffNotifications(),
+      api.staffReport(),
     ]);
-    setData({ orders, support, notifications });
+    setData({ orders, support, notifications, report });
   };
 
   useEffect(() => {
@@ -38,7 +44,7 @@ export default function StaffPage({ user, flash }) {
       </div>
       {error && <p className="error">{error}</p>}
       <div className="tabs">
-        {["orders", "support", "notifications"].map((item) => (
+        {["orders", "support", "notifications", "report"].map((item) => (
           <button
             key={item}
             className={tab === item ? "active" : ""}
@@ -76,6 +82,23 @@ export default function StaffPage({ user, flash }) {
         <DataTable
           rows={data.support}
           columns={["supportRequestId", "username", "subject", "message", "status"]}
+          action={(row) => (
+            <select
+              value={row.status}
+              onChange={async (e) => {
+                await api.staffUpdateSupportStatus(
+                  row.supportRequestId,
+                  e.target.value,
+                );
+                await load();
+                flash("Support request updated.");
+              }}
+            >
+              <option>Open</option>
+              <option>InProgress</option>
+              <option>Resolved</option>
+            </select>
+          )}
         />
       )}
 
@@ -84,6 +107,21 @@ export default function StaffPage({ user, flash }) {
           rows={data.notifications}
           columns={["notificationId", "title", "message", "read", "createdAt"]}
         />
+      )}
+
+      {tab === "report" && (
+        <div className="stats">
+          <div className="panel">
+            <span>Revenue</span>
+            <strong>
+              {Number(data.report.revenue || 0).toLocaleString()} đ
+            </strong>
+          </div>
+          <div className="panel">
+            <span>Orders</span>
+            <strong>{data.report.orderCount || 0}</strong>
+          </div>
+        </div>
       )}
     </section>
   );

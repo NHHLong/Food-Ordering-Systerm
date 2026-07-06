@@ -21,7 +21,7 @@ export default function OrdersPage({ user }) {
       setDetails({ ...details, [orderId]: null });
       return;
     }
-    const rows = await api.orderDetails(orderId);
+    const rows = await api.orderDetails(orderId, user.userId, user.role);
     setDetails({ ...details, [orderId]: rows });
   };
 
