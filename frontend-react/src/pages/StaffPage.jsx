@@ -85,18 +85,24 @@ export default function StaffPage({ user, flash }) {
           action={(row) => (
             <select
               value={row.status}
+              disabled={row.status === "Closed"}
               onChange={async (e) => {
-                await api.staffUpdateSupportStatus(
-                  row.supportRequestId,
-                  e.target.value,
-                );
-                await load();
-                flash("Support request updated.");
+                try {
+                  await api.staffUpdateSupportStatus(
+                    row.supportRequestId,
+                    e.target.value,
+                  );
+                  await load();
+                  flash("Support request updated.");
+                } catch (err) {
+                  flash(err.message, "error");
+                }
               }}
             >
               <option>Open</option>
               <option>InProgress</option>
               <option>Resolved</option>
+              <option>Closed</option>
             </select>
           )}
         />

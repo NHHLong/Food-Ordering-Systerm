@@ -402,6 +402,29 @@ export default function AdminPage({ user, flash }) {
             "message",
             "status",
           ]}
+          action={(row) => (
+            <select
+              value={row.status}
+              disabled={row.status === "Closed"}
+              onChange={async (e) => {
+                try {
+                  await api.adminUpdateSupportStatus(
+                    row.supportRequestId,
+                    e.target.value,
+                  );
+                  await load();
+                  flash("Support request updated.");
+                } catch (err) {
+                  flash(err.message, "error");
+                }
+              }}
+            >
+              <option>Open</option>
+              <option>InProgress</option>
+              <option>Resolved</option>
+              <option>Closed</option>
+            </select>
+          )}
         />
       )}
     </section>

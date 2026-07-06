@@ -58,11 +58,14 @@ public class SupportServiceImpl implements SupportService {
     @Transactional
     public SupportRequest updateSupportStatus(int supportRequestId, SupportStatusRequest request) {
         String status = request.status() == null ? "" : request.status().trim();
-        if (!List.of("Open", "InProgress", "Resolved").contains(status)) {
-            throw new IllegalArgumentException("Status must be Open, InProgress or Resolved.");
+        if (!List.of("Open", "InProgress", "Resolved", "Closed").contains(status)) {
+            throw new IllegalArgumentException("Status must be Open, InProgress, Resolved or Closed.");
         }
         SupportRequest support = supportDAO.findById(supportRequestId)
             .orElseThrow(() -> new IllegalArgumentException("Support request does not exist."));
+        if ("Closed".equals(support.getStatus())) {
+            throw new IllegalArgumentException("This ticket is closed and can no longer be modified.");
+        }
         support.setStatus(status);
         SupportRequest updated = supportDAO.update(support);
         notificationService.createNotification(new NotificationCreateRequest(

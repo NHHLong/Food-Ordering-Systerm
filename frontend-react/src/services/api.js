@@ -121,4 +121,9 @@ export const api = {
       body: JSON.stringify(payload),
     }),
   adminSupport: () => request("/admin/support"),
+  adminUpdateSupportStatus: (id, status) =>
+    request(`/admin/support/${id}/status`, {
+      method: "PATCH",
+      body: JSON.stringify({ status }),
+    }),
 };

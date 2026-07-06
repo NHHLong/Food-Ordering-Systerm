@@ -5,6 +5,7 @@ import com.foodorder.dto.CategorySaveRequest;
 import com.foodorder.dto.DashboardResponse;
 import com.foodorder.dto.FoodSaveRequest;
 import com.foodorder.dto.OrderStatusRequest;
+import com.foodorder.dto.SupportStatusRequest;
 import com.foodorder.dto.UserActiveRequest;
 import com.foodorder.dto.UserRoleRequest;
 import com.foodorder.dto.VoucherSaveRequest;
@@ -104,4 +105,9 @@ public class AdminController {
 
     @GetMapping("/support")
     public List<SupportRequest> supportRequests() { return support.getAllSupportRequests(); }
+
+    @PatchMapping("/support/{supportRequestId}/status")
+    public SupportRequest updateSupportStatus(@PathVariable int supportRequestId, @RequestBody SupportStatusRequest request) {
+        return support.updateSupportStatus(supportRequestId, request);
+    }
 }
